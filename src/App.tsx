@@ -1,14 +1,15 @@
 import React from 'react';
 import './App.css';
-import { Formik } from "formik"
-import { Button, TextField } from '@mui/material';
+import { MenuItem } from '@mui/material';
 import * as yup from "yup";
 import InputField from './InputFIeld';
+import SelectField from './SelectField';
 import MultiStepForm, { FormStep } from './MultiStepForm';
 
 const validationSchema = yup.object({
-  name: yup.string().required('Name is required'),
-  email: yup.string().email('invalid email').required('Email is required')
+  name: yup.string().trim().required('Name is required'),
+  email: yup.string().trim().email('invalid email').required('Email is required'),
+  gender: yup.string().trim().required("Gender is required")
 })
 
 function App()
@@ -20,6 +21,7 @@ function App()
           initialValues={{
             name: "",
             email: "",
+            gender: "",
             street: "",
             country: ""
           }}
@@ -38,15 +40,23 @@ function App()
             />
             <InputField
               name='email'
-              label='email'
+              label='Email'
             />
+            <SelectField
+              name='gender'
+              label='Gender'
+            >
+              <MenuItem value="">select</MenuItem>
+              <MenuItem value="female">female</MenuItem>
+              <MenuItem value="male">male</MenuItem>
+            </SelectField>
           </FormStep>
           <FormStep
             stepName="Address"
             onSubmit={() => console.log("step2")}
             validationSchema={yup.object({
-              street: yup.string().required("Street is required"),
-              country: yup.string().required("Country is required")
+              street: yup.string().trim().required("Street is required"),
+              country: yup.string().trim().required("Country is required")
             })} >
             <InputField
               name='street'
@@ -59,7 +69,7 @@ function App()
           </FormStep>
         </MultiStepForm>
       </header>
-    </div>
+    </div >
   );
 }
 
